@@ -23,7 +23,7 @@ from vggt.models.vggt import VGGT
 from vggt.utils.load_fn import load_and_preprocess_images
 from vggt.utils.pose_enc import pose_encoding_to_extri_intri
 from vggt.utils.geometry import unproject_depth_map_to_point_map
-
+from wcv import wcv_init
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 print("Initializing and loading VGGT model...")
@@ -208,9 +208,7 @@ def gradio_demo(
     """
     Perform reconstruction using the already-created target_dir/images.
     """
-    if not os.path.isdir(target_dir) or target_dir == "None":
-        return None, "No valid target directory found. Please upload first.", None, None
-
+    _, target_dir = wcv_init('/testdata')
     start_time = time.time()
     gc.collect()
     torch.cuda.empty_cache()
